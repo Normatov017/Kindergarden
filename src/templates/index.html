@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kindergarten Kitchen Management</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9fbfc;
+      color: #2c3e50;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    header {
+      width: 100%;
+      max-width: 1200px;
+      padding: 1rem 1.5rem;
+      background-color: #2c3e50;
+      color: white;
+      font-weight: 700;
+      font-size: 1.8rem;
+      border-radius: 0 0 12px 12px;
+      text-align: center;
+      margin-bottom: 1rem;
+      user-select: none;
+    }
+
+    nav {
+      width: 100%;
+      max-width: 1200px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+      display: flex;
+      justify-content: space-between;
+      padding: 0.6rem 1rem;
+      gap: 1rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+      user-select: none;
+      flex-wrap: wrap;
+    }
+    nav > a {
+      color: #2c3e50;
+      text-decoration: none;
+      padding: 0.5rem 0.8rem;
+      border-radius: 6px;
+      transition: all 0.25s ease;
+      white-space: nowrap;
+    }
+    nav > a:hover,
+    nav > a:focus {
+      background-color: #2980b9;
+      color: white;
+    }
+
+    .dropdown {
+      position: relative;
+    }
+    .dropdown > button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #2c3e50;
+      font-weight: 600;
+      padding: 0.5rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .dropdown > button:hover {
+      background-color: #2980b9;
+      color: white;
+    }
+    .dropdown > button svg {
+      width: 10px;
+      height: 10px;
+      fill: currentColor;
+      transition: transform 0.3s ease;
+    }
+    .dropdown:hover > button svg {
+      transform: rotate(180deg);
+    }
+    .dropdown-content {
+      position: absolute;
+      top: 110%;
+      left: 0;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+      min-width: 160px;
+      display: none;
+      flex-direction: column;
+      z-index: 999;
+    }
+    .dropdown-content a {
+      padding: 0.5rem 1rem;
+      text-decoration: none;
+      color: #2980b9;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .dropdown-content a:hover {
+      background-color: #2980b9;
+      color: white;
+    }
+    .dropdown:hover .dropdown-content {
+      display: flex;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
+
+    #content {
+      max-width: 1200px;
+      width: 100%;
+      padding: 2rem;
+    }
+    .goal-section {
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      padding: 2rem;
+      margin-top: 1rem;
+    }
+    .goal-section h2 {
+      font-size: 1.8rem;
+      color: #2c3e50;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid #2980b9;
+      display: inline-block;
+      padding-bottom: 0.3rem;
+    }
+    .goal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    .goal-item {
+      background-color: #ecf6fc;
+      border-left: 5px solid #2980b9;
+      padding: 1rem;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .goal-item img {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 0.8rem;
+    }
+    .goal-item p {
+      margin: 0;
+      font-weight: 500;
+    }
+
+    .goal-summary {
+      margin-top: 2rem;
+      font-style: italic;
+      color: #555;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<header>Kindergarten Kitchen Management</header>
+
+<nav aria-label="Primary navigation">
+  <a style="font-weight: bold;" href="index.html"> Home</a>
+
+
+  <div class="dropdown" tabindex="0">
+    <button>
+        User Management
+        <svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg>
+      </button>
+    <div class="dropdown-content">
+      <a href="{% url 'login' %}">Login</a>
+      <a href="{% url 'register' %}">Ro'yxatdan o'tish</a>
+      <a href="users.html">Users</a>
+    </div>
+  </div>
+
+  <a href="dashboard.html">Dashboard</a>
+
+  <div class="dropdown" tabindex="0">
+    <button>
+      Inventory & Meals
+      <svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg>
+    </button>
+    <div class="dropdown-content">
+      <a href="inventory.html">Inventory</a>
+      <a href="products.html">Products</a>
+      <a href="meals.html">Meals</a>
+    </div>
+  </div>
+
+  <a href="serve-meal.html">Serve Meal</a>
+  <a href="portion-estimate.html">Portion Estimate</a>
+
+  <div class="dropdown" tabindex="0">
+    <button>
+      Reports & Alerts
+      <svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg>
+    </button>
+    <div class="dropdown-content">
+      <a href="reports.html">Reports</a>
+      <a href="{% url 'alerts:alerts' %}">Alerts</a>
+
+    </div>
+  </div>
+</nav>
+
+<div id="content">
+  <section class="goal-section">
+    <h2>🎯 Loyihaning Maqsadlari</h2>
+
+    <div class="goal-grid">
+      <div class="goal-item">
+        <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="Inventory icon">
+        <p>Inventarni real vaqt rejimida boshqarish</p>
+      </div>
+      <div class="goal-item">
+        <img src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" alt="Meal icon">
+        <p>Ovqat porsiyalarini avtomatik hisoblash</p>
+      </div>
+      <div class="goal-item">
+        <img src="https://cdn-icons-png.flaticon.com/512/2331/2331970.png" alt="Serve icon">
+        <p>Ovqat ulash jarayonini nazorat qilish</p>
+      </div>
+      <div class="goal-item">
+        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828911.png" alt="Alert icon">
+        <p>Mahsulot tugashini oldindan ogohlantirish</p>
+      </div>
+      <div class="goal-item">
+        <img src="https://cdn-icons-png.flaticon.com/512/535/535234.png" alt="Report icon">
+        <p>Statistik hisobotlar va tahlillar yaratish</p>
+      </div>
+      <div class="goal-item">
+        <img src="https://cdn-icons-png.flaticon.com/512/1027/1027126.png" alt="User icon">
+        <p>Turli foydalanuvchi rollarini boshqarish</p>
+      </div>
+    </div>
+
+    <div class="goal-summary">
+      Ushbu tizim orqali bolalar bog‘chasi oshxonasida samaradorlik oshiriladi, mahsulot isrofi kamaytiriladi va oshpazlar uchun qulay interfeys taqdim etiladi.
+    </div>
+  </section>
+</div>
+
+</body>
+</html>
