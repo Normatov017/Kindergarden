@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block links %}
+  <link rel="stylesheet" href="{% static 'servemeal.css' %}">
+{% endblock links %}
+
+{% block content %}
+
+  <main>
+    <form id="serveMealForm">
+      <label for="mealSelect">Select Meal to Serve</label>
+      <select id="mealSelect" required>
+        <option value="" disabled selected>Choose a meal</option>
+        <option value="beefStew">Beef Stew</option>
+        <option value="ricePorridge">Rice Porridge</option>
+        <option value="vegetableSoup">Vegetable Soup</option>
+      </select>
+
+      <button type="submit">Serve Meal</button>
+    </form>
+
+    <div id="alert" class="alert"></div>
+  </main>
+
+  <script>
+    // Example inventory with ingredient quantities in grams
+    const inventory = {
+      beef: 500,
+      potato: 800,
+      salt: 100,
+      rice: 300,
+      water: 1000,
+      vegetable: 400,
+    };
+
+    // Meals and their required ingredients (grams)
+    const meals = {
+      beefStew: { beef: 200, potato: 300, salt: 5 },
+      ricePorridge: { rice: 150, water: 300, salt: 3 },
+      vegetableSoup: { vegetable: 200, salt: 4, water: 250 }
+    };
+
+    const form = document.getElementById('serveMealForm');
+    const alertBox = document.getElementById('alert');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      alertBox.style.display = 'none';
+      const selectedMeal = document.getElementById('mealSelect').value;
+      if (!selectedMeal) return;
+
+      const requiredIngredients = meals[selectedMeal];
+      let insufficient = [];
+
+      // Check ingredient sufficiency
+      for (const ingredient in requiredIngredients) {
+        if (!inventory[ingredient] || inventory[ingredient] < requiredIngredients[ingredient]) {
+          insufficient.push(ingredient);
+        }
+      }
+
+      if (insufficient.length > 0) {
+        alertBox.textContent = `Not enough ingredient(s): ${insufficient.join(', ')}. Cannot serve meal.`;
+        alertBox.style.display = 'block';
+        alertBox.className = 'alert';
+      } else {
+        // Deduct ingredients from inventory
+        for (const ingredient in requiredIngredients) {
+          inventory[ingredient] -= requiredIngredients[ingredient];
+        }
+        alertBox.textContent = 'Meal served successfully!';
+        alertBox.style.display = 'block';
+        alertBox.className = 'alert success';
+        // Here you would add logging (date/time, user) in real app
+      }
+    });
+  </script>
+{% endblock content %}
+
+
+{% block js %}
+{% endblock js %}
