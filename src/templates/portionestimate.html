@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block links %}
+  <link rel="stylesheet" href="{% static 'portion-estimate.css' %}">
+{% endblock links %}
+
+{% block content %}
+
+
+
+
+  <div class="container">
+    <label for="mealSelect">Select a Meal:</label>
+    <select id="mealSelect" aria-label="Select meal">
+      <option value="" disabled selected>-- Choose a meal --</option>
+    </select>
+
+    <table aria-live="polite" aria-label="Ingredients required per portion">
+      <thead>
+        <tr>
+          <th>Ingredient</th>
+          <th>Quantity per Portion (grams)</th>
+        </tr>
+      </thead>
+      <tbody id="ingredientsTableBody">
+        <!-- JavaScript will fill this -->
+      </tbody>
+    </table>
+
+    <p class="note">* Select a meal to see how much ingredients are needed for 1 portion.</p>
+  </div>
+
+  <script>
+    // Meals and their required ingredients (grams per portion)
+    const meals = {
+      "Beef Stew": { beef: 300, potato: 200, salt: 5, oil: 50 },
+      "Rice Porridge": { rice: 300, water: 200, salt: 3, butter: 30 },
+      "Vegetable Soup": { vegetable: 250, salt: 4, water: 200, oil: 20 },
+      "Chicken Curry": { chicken: 350, spices: 50, salt: 6, oil: 40 },
+    };
+
+    const mealSelect = document.getElementById('mealSelect');
+    const ingredientsTableBody = document.getElementById('ingredientsTableBody');
+
+    // Fill dropdown options dynamically
+    function populateMealOptions() {
+      for (const mealName in meals) {
+        const option = document.createElement('option');
+        option.value = mealName;
+        option.textContent = mealName;
+        mealSelect.appendChild(option);
+      }
+    }
+
+    // Render ingredients table for selected meal
+    function renderIngredients(mealName) {
+      ingredientsTableBody.innerHTML = '';
+      if (!mealName || !meals[mealName]) {
+        return;
+      }
+      const ingredients = meals[mealName];
+      for (const [ingredient, quantity] of Object.entries(ingredients)) {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${ingredient.charAt(0).toUpperCase() + ingredient.slice(1)}</td><td>${quantity} g</td>`;
+        ingredientsTableBody.appendChild(row);
+      }
+    }
+
+    // Initial population of dropdown
+    populateMealOptions();
+
+    // Update table on meal selection
+    mealSelect.addEventListener('change', () => {
+      renderIngredients(mealSelect.value);
+    });
+
+  </script>
+
+{% endblock content %}
+
+
+{% block js %}
+{% endblock js %}

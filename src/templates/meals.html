@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block links %}
+  <link rel="stylesheet" href="{% static 'meals.css' %}">
+{% endblock links %}
+
+{% block content %}
+
+
+
+
+
+
+  <main>
+    <h2>Add New Meal</h2>
+    <form>
+      <label for="mealName">Meal Name</label>
+      <input type="text" id="mealName" name="mealName" placeholder="e.g. Beef Stew" required>
+
+      <label for="ingredients">Ingredients (comma-separated)</label>
+      <textarea id="ingredients" name="ingredients" placeholder="e.g. beef:200, potato:300, salt:5" required></textarea>
+
+      <button type="submit">Add Meal</button>
+    </form>
+
+    <h2>Meals List</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Meal</th>
+          <th>Ingredients</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Beef Stew</td>
+          <td>beef (200g), potato (300g), salt (5g)</td>
+          <td class="actions">
+            <button class="edit-btn">Edit</button>
+            <button class="delete-btn">Delete</button>
+          </td>
+        </tr>
+        <tr>
+          <td>Rice Porridge</td>
+          <td>rice (150g), water (300g), salt (3g)</td>
+          <td class="actions">
+            <button class="edit-btn">Edit</button>
+            <button class="delete-btn">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+{% endblock content %}
+
+
+{% block js %}
+{% endblock js %}

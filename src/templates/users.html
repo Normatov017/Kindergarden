@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block links %}
+  <link rel="stylesheet" href="{% static 'users.css' %}">
+{% endblock links %}
+
+{% block content %}
+
+  <div class="container">
+    <!-- Users List -->
+    <section class="user-list" aria-labelledby="user-list-title">
+      <h2 id="user-list-title">Foydalanuvchilar Ro'yxati</h2>
+      <table aria-describedby="user-list-description">
+        <caption id="user-list-description" class="sr-only">Barcha foydalanuvchilar ismi va ularning rollari</caption>
+        <thead>
+          <tr>
+            <th>Ism</th>
+            <th>Email</th>
+            <th>Rol</th>
+            <th>Faollik Statusi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Ali Valiyev</td>
+            <td>ali.valiyev@example.com</td>
+            <td>Admin</td>
+            <td>Faol</td>
+          </tr>
+          <tr>
+            <td>Gulnoza Abdullaeva</td>
+            <td>gulnoza.abd@example.com</td>
+            <td>Manager</td>
+            <td>Faol</td>
+          </tr>
+          <tr>
+            <td>Jasur Tursunov</td>
+            <td>jasur.t@example.com</td>
+            <td>Cook</td>
+            <td>Faol emas</td>
+          </tr>
+          <tr>
+            <td>Nilufar Karimova</td>
+            <td>nilufar.k@example.com</td>
+            <td>Cook</td>
+            <td>Faol</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Served Meals Log -->
+    <section class="served-meals" aria-labelledby="served-meals-title">
+      <h2 id="served-meals-title">Tarqatilgan Ovqatlar Tarixi</h2>
+      <table aria-describedby="served-meals-description">
+        <caption id="served-meals-description" class="sr-only">Har bir foydalanuvchi tomonidan tarqatilgan ovqatlar va vaqti</caption>
+        <thead>
+          <tr>
+            <th>Foydalanuvchi</th>
+            <th>Ovqat Nomi</th>
+            <th>Tarqatilgan Sana va Vaqt</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Ali Valiyev</td>
+            <td>Sabzavotli sho’rva</td>
+            <td>2025-05-15 10:30</td>
+          </tr>
+          <tr>
+            <td>Nilufar Karimova</td>
+            <td>Guruchli tovuq</td>
+            <td>2025-05-15 12:00</td>
+          </tr>
+          <tr>
+            <td>Gulnoza Abdullaeva</td>
+            <td>Sabzavotli sho’rva</td>
+            <td>2025-05-14 09:45</td>
+          </tr>
+          <tr>
+            <td>Jasur Tursunov</td>
+            <td>Qaynatilgan sabzi</td>
+            <td>2025-05-13 11:15</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+{% endblock content %}
+
+
+{% block js %}
+{% endblock js %}

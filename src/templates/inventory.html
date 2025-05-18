@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block links %}
+  <link rel="stylesheet" href="{% static 'inventory.css' %}">
+{% endblock links %}
+
+{% block content %}
+
+  <main>
+    <div class="grid-container">
+
+      <!-- Form -->
+      <div class="form-section">
+        <h2>Add New Product</h2>
+        <form>
+          <label for="name">Product Name</label>
+          <input type="text" id="name" name="name" placeholder="e.g. Beef" required>
+
+          <label for="weight">Weight (grams)</label>
+          <input type="number" id="weight" name="weight" required>
+
+          <label for="delivery">Delivery Date</label>
+          <input type="date" id="delivery" name="delivery" required>
+
+          <button type="submit" >Add Product</button>
+        </form>
+      </div>
+
+      <!-- Table -->
+      <div class="table-section">
+        <h2>Current Inventory</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Weight (g)</th>
+              <th>Delivery Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Potato</td>
+              <td class="low-stock">250</td>
+              <td>2025-05-15</td>
+              <td class="actions">
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Salt</td>
+              <td>500</td>
+              <td>2025-05-14</td>
+              <td class="actions">
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </main>
+
+{% endblock content %}
+
+
+{% block js %}
+{% endblock js %}

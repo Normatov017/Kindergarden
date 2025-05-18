@@ -2,8 +2,8 @@
 from django.urls import path
 from . import views
 
-app_name = 'alerts'
+app_name = 'alerts'  # Namespace
 
 urlpatterns = [
-    path('alerts/', views.alerts_view, name='alerts'),
+    path('', views.alerts_view, name='alerts'),  # URL path becomes '/alerts/'
 ]

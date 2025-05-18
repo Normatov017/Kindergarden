@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kindergarten Kitchen Management</title>
+    {% block links %}
+    {% endblock links %}
+  <link rel="stylesheet" href="./static/index.css">
+
+</head>
+
+<body>
+
+<header>Kindergarten Kitchen Management</header>
+
+<nav aria-label="Primary navigation">
+
+  <a style="font-weight: bold;" href="{% url 'home' %}"> Home</a>
+
+
+  <div class="dropdown" tabindex="0">
+    <button>
+        User Management
+        <svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg>
+      </button>
+    <div class="dropdown-content">
+      <a class="login" href="{% url 'login' %}">Login</a>
+      <a class="user" href="{% url 'users' %}">Users</a>
+    </div>
+  </div>
+
+  <a href="dashboard.html">Dashboard</a>
+
+  <div class="dropdown" tabindex="0">
+    <button>
+      Inventory & Meals
+      <svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg>
+    </button>
+    <div class="dropdown-content">
+      <a class="inventory" href="{% url 'inventory' %}">Inventory</a>
+      <a class="products" href="{% url 'products' %}">Product</a>
+      <a class="meals" href="{% url 'meals' %}">Meals</a>
+    </div>
+  </div>
+
+  <a href="serve-meal.html">Serve Meal</a>
+  <a class="portionestimates" href="{% url 'portionestimates' %}">Portione-stimate</a>
+
+  <div class="dropdown" tabindex="0">
+    <button>
+      Reports & Alerts
+      <svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg>
+    </button>
+    <div class="dropdown-content">
+      <a class="reports" href="{% url 'reports' %}">Reports</a>
+      <a class="alerts" href="{% url 'alerts:alerts' %}">Alerts</a>
+    </div>
+  </div>
+</nav>
+
+{% block content %}
+{% endblock content %}
+
+{% block js %}
+{% endblock js %}
+</body>
+</html>

@@ -1,0 +1,269 @@
+/* Reset some defaults */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      background: #f9fbfd;
+      color: #2c3e50;
+      padding: 2rem;
+      background-image: url(./img/image2.png);
+      background-repeat: no-repeat;
+      background-size: cover;         
+      background-position: center; 
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+    }
+
+    .reports-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      margin-top: 30px;
+    }
+
+    .report-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .report-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #34495e;
+      text-align: center;
+    }
+
+    /* Placeholder graph styles */
+    .graph {
+      width: 100%;
+      height: 250px;
+      background: linear-gradient(135deg, #2980b9 25%, #3498db 75%);
+      border-radius: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Simulate bars in graph */
+    .bar {
+      position: absolute;
+      bottom: 0;
+      width: 12%;
+      background: #1abc9c;
+      border-radius: 4px 4px 0 0;
+      transition: height 0.3s ease;
+    }
+    .bar:nth-child(1) { left: 5%; height: 60%; }
+    .bar:nth-child(2) { left: 20%; height: 75%; }
+    .bar:nth-child(3) { left: 35%; height: 40%; }
+    .bar:nth-child(4) { left: 50%; height: 85%; }
+    .bar:nth-child(5) { left: 65%; height: 55%; }
+    .bar:nth-child(6) { left: 80%; height: 70%; }
+
+    /* Monthly Summary Section */
+    .summary-list {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0 0 0;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #2c3e50;
+    }
+
+    .summary-list li {
+      padding: 8px 0;
+      border-bottom: 1px solid #e1e8ed;
+      display: flex;
+      justify-content: space-between;
+      font-weight: 600;
+    }
+
+    .summary-list li span.value {
+      font-weight: 700;
+      color: #2980b9;
+    }
+
+    /* Flag misuse styling */
+    .flag-misuse {
+      margin-top: 1rem;
+      padding: 10px;
+      background-color: #f8d7da;
+      color: #842029;
+      border-radius: 8px;
+      font-weight: 700;
+      text-align: center;
+      border: 1px solid #f5c2c7;
+      user-select: none;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .reports-container {
+        grid-template-columns: 1fr;
+      }
+    }
+      * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0; padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9fbfc;
+    color: #2c3e50;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+  }
+  header {
+    width: 100%;
+    max-width: 1200px;
+    padding: 1rem 1.5rem;
+    background-color: #2c3e50;
+    color: white;
+    font-weight: 700;
+    font-size: 1.8rem;
+    border-radius: 0 0 12px 12px;
+    text-align: center;
+    margin-bottom: 1rem;
+    user-select: none;
+  }
+
+  /* Navbar konteyner */
+  nav {
+    width: 100%;
+    max-width: 1200px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+    display: flex;
+    justify-content: space-between;
+    padding: 0.6rem 1rem;
+    gap: 1rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    user-select: none;
+  }
+  /* Oddiy havolalar */
+  nav > a {
+    color: #2c3e50;
+    text-decoration: none;
+    padding: 0.5rem 0.8rem;
+    border-radius: 6px;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+  }
+  nav > a:hover,
+  nav > a:focus {
+    background-color: #2980b9;
+    color: white;
+    outline: none;
+  }
+
+  /* Dropdown konteyner */
+  .dropdown {
+    position: relative;
+    user-select: none;
+  }
+  /* Dropdown tugma */
+  .dropdown > button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #2c3e50;
+    font-weight: 600;
+    padding: 0.5rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    transition: background-color 0.3s ease;
+  }
+  .dropdown > button:hover,
+  .dropdown > button:focus {
+    background-color: #2980b9;
+    color: white;
+    outline: none;
+  }
+
+  /* O'qcha belgisi uchun kichik inline SVG */
+  .dropdown > button svg {
+    width: 10px;
+    height: 10px;
+    fill: currentColor;
+    transition: transform 0.3s ease;
+  }
+  .dropdown:hover > button svg,
+  .dropdown:focus-within > button svg {
+    transform: rotate(180deg);
+  }
+
+  /* Dropdown menyu */
+  .dropdown-content {
+    position: absolute;
+    top: 110%;
+    left: 0;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    min-width: 160px;
+    display: none;
+    flex-direction: column;
+    z-index: 999;
+  }
+  .dropdown-content a {
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    color: #2980b9;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: background-color 0.25s ease;
+  }
+  .dropdown-content a:hover,
+  .dropdown-content a:focus {
+    background-color: #2980b9;
+    color: white;
+    outline: none;
+  }
+
+  /* Dropdown ko‘rsatilishi */
+  .dropdown:hover .dropdown-content,
+  .dropdown:focus-within .dropdown-content {
+    display: flex;
+  }
+
+  /* Responsive kichik ekran uchun */
+  @media (max-width: 768px) {
+    nav {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    nav > a,
+    .dropdown > button {
+      font-size: 0.9rem;
+      padding: 0.4rem 0.6rem;
+    }
+    .dropdown-content {
+      position: static;
+      box-shadow: none;
+      border-radius: 0;
+      width: 100%;
+      margin-top: 0.3rem;
+    }
+    .dropdown-content a {
+      padding-left: 2rem;
+    }
+  }

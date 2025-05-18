@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block links %}
+  <link rel="stylesheet" href="{% static 'reports.css' %}">
+{% endblock links %}
+
+{% block content %}
+
+
+
+  <div class="reports-container">
+    <section class="report-card" aria-label="Ingredient usage over time graph">
+      <h2 class="report-title">Ingredient Usage Over Time</h2>
+      <div class="graph" role="img" aria-describedby="usage-desc">
+        <div class="bar" style="height: 60%"></div>
+        <div class="bar" style="height: 75%"></div>
+        <div class="bar" style="height: 40%"></div>
+        <div class="bar" style="height: 85%"></div>
+        <div class="bar" style="height: 55%"></div>
+        <div class="bar" style="height: 70%"></div>
+      </div>
+      <p id="usage-desc" class="sr-only">
+        Bar chart showing ingredient consumption and deliveries over past months.
+      </p>
+    </section>
+
+    <section class="report-card" aria-label="Monthly summary report">
+      <h2 class="report-title">Monthly Summary</h2>
+      <ul class="summary-list">
+        <li>Total Portions Served: <span class="value" id="total-served">1200</span></li>
+        <li>Possible Portions: <span class="value" id="possible-portions">1350</span></li>
+        <li>Difference Rate: <span class="value" id="difference-rate">11.1%</span></li>
+      </ul>
+      <div id="flag-misuse" class="flag-misuse" style="display:none;">
+        ⚠️ Potential misuse detected! Difference rate exceeds 10%
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // Example logic to show/hide misuse flag based on difference rate
+    const differenceRateElem = document.getElementById('difference-rate');
+    const flagMisuseElem = document.getElementById('flag-misuse');
+
+    const differenceRate = parseFloat(differenceRateElem.textContent);
+
+    if (differenceRate > 10) {
+      flagMisuseElem.style.display = 'block';
+    }
+  </script>
+
+
+{% endblock content %}
+
+
+{% block js %}
+{% endblock js %}
