@@ -1,11 +1,9 @@
 from django.db import models
 from roles.models import Role  # Role modelini import qilamiz
-
-class user(models.Model):
-    username = models.CharField(max_length=150, unique=True)
+from django.contrib.auth.models import AbstractUser
+class user(AbstractUser):
     full_name = models.CharField(max_length=255)
-    password_hash = models.CharField(max_length=255)
-    role = models.ForeignKey(Role, on_delete=models.CASCADE, related_name='users')
+    role = models.ForeignKey(Role, on_delete=models.CASCADE, related_name='users',blank=True,null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

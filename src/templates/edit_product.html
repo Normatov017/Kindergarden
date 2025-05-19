@@ -1,0 +1,51 @@
+
+{% load static %}
+{% block links %}
+  <link rel="stylesheet" href="{% static 'edit_product.css' %}">
+  <link rel="stylesheet" href="{% static 'index.css' %}">
+{% endblock links %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="card">
+        <h2>Sabzavot ma'lumotlari</h2>
+
+        <div class="form-group">
+            <label for="name">Sabzavot nomi:</label>
+            <input type="text" id="name" name="product-name" />
+            <span class="error" id="nameError"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="weight">Og'irligi (kg):</label>
+            <input type="number" id="weight" name="product-weight" />
+            <span class="error" id="weightError"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="date">Sana:</label>
+            <input type="date" id="date" name="delivery-date"/>
+            <span class="error" id="dateError"></span>
+        </div>
+
+        <button onclick="saveData()">Saqlash</button>
+
+
+        <div id="result" class="result"></div>
+    </div>
+</form>
+ <a href="http://127.0.0.1:8000/products/"> <button onclick="goBack()" class="back">Ortga qaytish</button></a>
+
+<script>
+  function goBack() {
+    window.location.href = 'http://127.0.0.1:8000/products/';
+  }
+</script>
+{% endblock content %}
+
+
+{% block js %}
+<script src="{% static 'edit_product.js' %}"></script>
+{% endblock js %}

@@ -6,67 +6,72 @@
 {% endblock links %}
 
 {% block content %}
+<main>
+  <div class="grid-container">
 
-  <main>
-    <div class="grid-container">
+    <!-- Form -->
+    <div class="form-section">
+      <h2>Add New Product to Inventory</h2>
+      <form method="POST">
+        {% csrf_token %}
 
-      <!-- Form -->
-      <div class="form-section">
-        <h2>Add New Product</h2>
-        <form>
-          <label for="name">Product Name</label>
-          <input type="text" id="name" name="name" placeholder="e.g. Beef" required>
+        <label for="product">Product</label>
+        <select id="product" name="product" required>
+          <option value="">Select a product</option>
+          {% for product in products %}
+            <option value="{{ product.id }}">{{ product.name }}</option>
+          {% endfor %}
+        </select>
 
-          <label for="weight">Weight (grams)</label>
-          <input type="number" id="weight" name="weight" required>
+        <label for="quantity">Quantity (grams)</label>
+        <input type="number" id="quantity" name="quantity" step="0.01" required>
 
-          <label for="delivery">Delivery Date</label>
-          <input type="date" id="delivery" name="delivery" required>
+        <label for="delivery_date">Delivery Date</label>
+        <input type="date" id="delivery_date" name="delivery_date" required>
 
-          <button type="submit" >Add Product</button>
-        </form>
-      </div>
+        <label for="expiry_date">Expiry Date</label>
+        <input type="date" id="expiry_date" name="expiry_date" required>
 
-      <!-- Table -->
-      <div class="table-section">
-        <h2>Current Inventory</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Product</th>
-              <th>Weight (g)</th>
-              <th>Delivery Date</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Potato</td>
-              <td class="low-stock">250</td>
-              <td>2025-05-15</td>
-              <td class="actions">
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Salt</td>
-              <td>500</td>
-              <td>2025-05-14</td>
-              <td class="actions">
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+        <label for="source">Source</label>
+        <input type="text" id="source" name="source" placeholder="e.g. Supplier name" required>
 
+        <button type="submit">Add Product</button>
+      </form>
     </div>
-  </main>
 
+    <!-- Table -->
+    <div class="table-section">
+      <h2>Current Inventory</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Quantity (g)</th>
+            <th>Delivery Date</th>
+            <th>Expiry Date</th>
+            <th>Source</th>
+            <th>Created By</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in inventories %}
+          <tr>
+            <td>{{ item.product.name }}</td>
+            <td {% if item.quantity < 300 %}class="low-stock"{% endif %}>{{ item.quantity }}</td>
+            <td>{{ item.delivery_date }}</td>
+            <td>{{ item.expiry_date }}</td>
+            <td>{{ item.source }}</td>
+            <td>{{ item.created_by.username }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="6">No inventory records found.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</main>
 {% endblock content %}
-
-
-{% block js %}
-{% endblock js %}

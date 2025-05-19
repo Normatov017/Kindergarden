@@ -1,83 +1,77 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block links %}
   <link rel="stylesheet" href="{% static 'product.css' %}">
 {% endblock links %}
 
 {% block content %}
+<div class="container">
+  <!-- Add New Product Form -->
+  <form method="POST" aria-label="Add new product form">
+    {% csrf_token %}
+    <label for="product-name">
+      Mahsulot nomi
+      <input type="text" id="product-name" name="product-name" placeholder="Masalan: Kartoshka" required />
+    </label>
 
+    <label for="product-weight">
+      Jami og'irligi (gram)
+      <input type="number" id="product-weight" name="product-weight" placeholder="Masalan: 5000" min="0" required />
+    </label>
 
+    <label for="delivery-date">
+      Yetkazilgan sana
+      <input type="date" id="delivery-date" name="delivery-date" required />
+    </label>
 
-  <div class="container">
-    <!-- Add New Product Form -->
-    <form aria-label="Add new product form">
-      <label for="product-name">
-        Mahsulot nomi
-        <input type="text" id="product-name" name="product-name" placeholder="Masalan: Kartoshka" required />
-      </label>
+    <button type="submit">Qo‘shish</button>
+  </form>
 
-      <label for="product-weight">
-        Jami og'irligi (gram)
-        <input type="number" id="product-weight" name="product-weight" placeholder="Masalan: 5000" min="0" required />
-      </label>
-
-      <label for="delivery-date">
-        Yetkazilgan sana
-        <input type="date" id="delivery-date" name="delivery-date" required />
-      </label>
-
-      <button type="submit">Qo‘shish</button>
-    </form>
-
-    <!-- Products Table -->
-    <table aria-label="Inventory products table">
-      <thead>
+  <!-- Products Table -->
+  <table aria-label="Inventory products table">
+    <thead>
+      <tr>
+        <th>Mahsulot nomi</th>
+        <th>Jami og'irligi (gram)</th>
+        <th>Yetkazilgan sana</th>
+        <th>Holat</th>
+        <th>Harakatlar</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for product in products %}
         <tr>
-          <th>Mahsulot nomi</th>
-          <th>Jami og'irligi (gram)</th>
-          <th>Yetkazilgan sana</th>
-          <th>Qolgan miqdor</th>
-          <th>Harakatlar</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Kartoshka</td>
-          <td>5000</td>
-          <td>2025-05-10</td>
-          <td><span class="status safe">Yaxshi</span></td>
+          <td>{{ product.name }}</td>
+          <td>{{ product.weight }}</td>
+          <td>{{ product.delivery_date }}</td>
+          <td>
+            {% if product.weight > product.minimum_threshold %}
+              <span class="status safe">Yaxshi</span>
+            {% elif product.weight > product.minimum_threshold|divisibleby:2 %}
+              <span class="status warning">Kam</span>
+            {% else %}
+              <span class="status danger">Juda kam</span>
+            {% endif %}
+          </td>
           <td class="actions">
-            <button type="button">Tahrirlash</button>
-            <button type="button" class="delete">O‘chirish</button>
+            <a href="{% url 'edit_product' product.id %}">
+              <button type="button">Tahrirlash</button>
+            </a>
+          <form method="POST" action="{% url 'delete_product' product.id %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="delete">O‘chirish</button>
+          </form>
           </td>
         </tr>
-        <tr>
-          <td>Moy</td>
-          <td>1200</td>
-          <td>2025-05-12</td>
-          <td><span class="status warning">Kam</span></td>
-          <td class="actions">
-            <button type="button">Tahrirlash</button>
-            <button type="button" class="delete">O‘chirish</button>
-          </td>
-        </tr>
-        <tr>
-          <td>Tuz</td>
-          <td>300</td>
-          <td>2025-05-08</td>
-          <td><span class="status danger">Juda kam</span></td>
-          <td class="actions">
-            <button type="button">Tahrirlash</button>
-            <button type="button" class="delete">O‘chirish</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-
+      {% empty %}
+        <tr><td colspan="5">Hozircha hech qanday mahsulot yo'q.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock content %}
 
-
 {% block js %}
+<!-- Agar kerak bo‘lsa JavaScript ulashing -->
 {% endblock js %}
