@@ -2,7 +2,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from .forms import CustomLoginForm
-from .models import user  # bu sizning custom user model
+from .models import User  # bu sizning custom user model
 from django.contrib.auth.views import LoginView as DjangoLoginView
 from django.http import HttpResponse
 
@@ -31,10 +31,9 @@ def login_view(request):
 
     return render(request, 'login.html', {'form': form})
 def user_list(request):
-    if request.user.is_authenticated and hasattr(request.user, 'role'):
-        if request.user.role.name in ["superuser", "supemanager"]:
-            data_user = user.objects.all()
+    if request.user.is_authenticated and request.user.role is not None:
+        if request.user.role.name in ["superuser", "manager"]:
+            data_user = User.objects.all()
             ctx = {"data_user": data_user}
             return render(request, 'users.html', ctx)
     return HttpResponse("Sizga ruxsat berilmagan", status=403)
-

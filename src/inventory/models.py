@@ -1,6 +1,6 @@
 from django.db import models
 from products.models import Product
-from users.models import user
+from users.models import User
 
 class Inventory(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='inventories')
@@ -8,7 +8,7 @@ class Inventory(models.Model):
     delivery_date = models.DateField()
     expiry_date = models.DateField()
     source = models.CharField(max_length=255)
-    created_by = models.ForeignKey(user, on_delete=models.CASCADE, related_name='inventory_records')
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='inventory_records')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

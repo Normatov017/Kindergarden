@@ -63,6 +63,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'bogcha.middleware.LoginRequiredMiddleware',
+
 ]
 
 ROOT_URLCONF = 'bogcha.urls'
@@ -143,3 +145,8 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+LOGIN_URL = '/users/login/'     # or the name of your login URL
+LOGIN_REDIRECT_URL = '/main/'  # after successful login
+LOGOUT_REDIRECT_URL = '/'  # optional

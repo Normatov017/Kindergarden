@@ -1,6 +1,6 @@
 from django.db import models
 from recipes.models import Recipe
-
+from meals.models import Meal
 class PortionEstimate(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='portion_estimates')
     possible_portions = models.IntegerField()

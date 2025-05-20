@@ -5,7 +5,6 @@
 {% endblock links %}
 
 {% block content %}
-
   <div class="container">
     <!-- Users List -->
     <section class="user-list" aria-labelledby="user-list-title">
@@ -21,30 +20,18 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Ali Valiyev</td>
-            <td>ali.valiyev@example.com</td>
-            <td>Admin</td>
-            <td>Faol</td>
-          </tr>
-          <tr>
-            <td>Gulnoza Abdullaeva</td>
-            <td>gulnoza.abd@example.com</td>
-            <td>Manager</td>
-            <td>Faol</td>
-          </tr>
-          <tr>
-            <td>Jasur Tursunov</td>
-            <td>jasur.t@example.com</td>
-            <td>Cook</td>
-            <td>Faol emas</td>
-          </tr>
-          <tr>
-            <td>Nilufar Karimova</td>
-            <td>nilufar.k@example.com</td>
-            <td>Cook</td>
-            <td>Faol</td>
-          </tr>
+          {% for u in data_user %}
+            <tr>
+              <td>{{ u.full_name }}</td>
+              <td>{{ u.email }}</td>
+              <td>{{ u.role.name }}</td>
+              <td>{% if u.is_active %}Faol{% else %}Faol emas{% endif %}</td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="4">Foydalanuvchilar topilmadi</td>
+            </tr>
+          {% endfor %}
         </tbody>
       </table>
     </section>
@@ -62,33 +49,22 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Ali Valiyev</td>
-            <td>Sabzavotli sho’rva</td>
-            <td>2025-05-15 10:30</td>
-          </tr>
-          <tr>
-            <td>Nilufar Karimova</td>
-            <td>Guruchli tovuq</td>
-            <td>2025-05-15 12:00</td>
-          </tr>
-          <tr>
-            <td>Gulnoza Abdullaeva</td>
-            <td>Sabzavotli sho’rva</td>
-            <td>2025-05-14 09:45</td>
-          </tr>
-          <tr>
-            <td>Jasur Tursunov</td>
-            <td>Qaynatilgan sabzi</td>
-            <td>2025-05-13 11:15</td>
-          </tr>
+          {% for portion in meals_served %}
+            <tr>
+              <td>{{ portion.user.full_name }}</td>
+              <td>{{ portion.meal.name }}</td>
+              <td>{{ portion.served_at|date:"Y-m-d H:i" }}</td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="3">Hech qanday tarqatilgan ovqatlar yo'q</td>
+            </tr>
+          {% endfor %}
         </tbody>
       </table>
     </section>
   </div>
-
 {% endblock content %}
-
 
 {% block js %}
 {% endblock js %}

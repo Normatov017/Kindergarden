@@ -1,7 +1,7 @@
 from django.db import models
 from roles.models import Role  # Role modelini import qilamiz
 from django.contrib.auth.models import AbstractUser
-class user(AbstractUser):
+class User(AbstractUser):
     full_name = models.CharField(max_length=255)
     role = models.ForeignKey(Role, on_delete=models.CASCADE, related_name='users',blank=True,null=True)
     created_at = models.DateTimeField(auto_now_add=True)

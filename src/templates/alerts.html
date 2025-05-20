@@ -6,40 +6,33 @@
 
 {% block content %}
 
-    <!-- Table of ingredients below threshold -->
+<div class="alert-container">
+  <h2>Low Stock Alerts</h2>
+
     <table aria-label="Ingredients below threshold">
       <thead>
         <tr>
-          <th>Ingredient</th>
+          <th>Product</th>
           <th>Current Quantity (g)</th>
           <th>Threshold (g)</th>
-          <th>Delivery Date</th>
+          <th>Alert Date</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Salt</td>
-          <td>150</td>
-          <td>200</td>
-          <td>2025-05-10</td>
-        </tr>
-        <tr>
-          <td>Potato</td>
-          <td>300</td>
-          <td>400</td>
-          <td>2025-05-12</td>
-        </tr>
-        <tr>
-          <td>Beef</td>
-          <td>180</td>
-          <td>250</td>
-          <td>2025-05-09</td>
-        </tr>
+        {% for alert in alerts %}
+          <tr>
+            <td>{{ alert.name }}</td>
+            <td>{{ alert.quantity }}</td>
+            <td>{{ alert.weight }}</td>
+            <td>{{ alert.delivery_date }}</td>
+          </tr>
+        {% endfor %}
       </tbody>
     </table>
-  </div>
-{% endblock content %}
 
+</div>
+
+{% endblock content %}
 
 {% block js %}
 {% endblock js %}

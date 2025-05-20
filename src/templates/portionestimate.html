@@ -1,83 +1,48 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block links %}
   <link rel="stylesheet" href="{% static 'portion-estimate.css' %}">
 {% endblock links %}
 
 {% block content %}
-
-
-
-
-  <div class="container">
+<div class="container">
+  <form method="get" action=".">
     <label for="mealSelect">Select a Meal:</label>
-    <select id="mealSelect" aria-label="Select meal">
-      <option value="" disabled selected>-- Choose a meal --</option>
+    <select name="meal_id" id="mealSelect" required>
+      <option value="" disabled {% if not selected_meal %}selected{% endif %}>-- Choose a meal --</option>
+      {% for meal in meals %}
+        <option value="{{ meal.id }}" {% if selected_meal and meal.id == selected_meal.id %}selected{% endif %}>
+          {{ meal.name }}
+        </option>
+      {% endfor %}
     </select>
+    <button type="submit">View Ingredients</button>
+  </form>
 
-    <table aria-live="polite" aria-label="Ingredients required per portion">
+  {% if selected_meal.ingredients %}
+    <table aria-live="polite" aria-label="Ingredients required per portion" style="margin-top: 20px;">
       <thead>
         <tr>
           <th>Ingredient</th>
           <th>Quantity per Portion (grams)</th>
         </tr>
       </thead>
-      <tbody id="ingredientsTableBody">
-        <!-- JavaScript will fill this -->
+      <tbody>
+
+          <tr>
+            <td>{{ selected_meal.name|capfirst }}</td>
+            <td>{{ selected_meal.ingredients }} </td>
+          </tr>
+
       </tbody>
     </table>
-
-    <p class="note">* Select a meal to see how much ingredients are needed for 1 portion.</p>
-  </div>
-
-  <script>
-    // Meals and their required ingredients (grams per portion)
-    const meals = {
-      "Beef Stew": { beef: 300, potato: 200, salt: 5, oil: 50 },
-      "Rice Porridge": { rice: 300, water: 200, salt: 3, butter: 30 },
-      "Vegetable Soup": { vegetable: 250, salt: 4, water: 200, oil: 20 },
-      "Chicken Curry": { chicken: 350, spices: 50, salt: 6, oil: 40 },
-    };
-
-    const mealSelect = document.getElementById('mealSelect');
-    const ingredientsTableBody = document.getElementById('ingredientsTableBody');
-
-    // Fill dropdown options dynamically
-    function populateMealOptions() {
-      for (const mealName in meals) {
-        const option = document.createElement('option');
-        option.value = mealName;
-        option.textContent = mealName;
-        mealSelect.appendChild(option);
-      }
-    }
-
-    // Render ingredients table for selected meal
-    function renderIngredients(mealName) {
-      ingredientsTableBody.innerHTML = '';
-      if (!mealName || !meals[mealName]) {
-        return;
-      }
-      const ingredients = meals[mealName];
-      for (const [ingredient, quantity] of Object.entries(ingredients)) {
-        const row = document.createElement('tr');
-        row.innerHTML = `<td>${ingredient.charAt(0).toUpperCase() + ingredient.slice(1)}</td><td>${quantity} g</td>`;
-        ingredientsTableBody.appendChild(row);
-      }
-    }
-
-    // Initial population of dropdown
-    populateMealOptions();
-
-    // Update table on meal selection
-    mealSelect.addEventListener('change', () => {
-      renderIngredients(mealSelect.value);
-    });
-
-  </script>
-
+    <p class="note">* {{ selected_meal.name }} uchun 1 porsiya miqdori.</p>
+  {% elif selected_meal %}
+    <p>No ingredients found for this meal.</p>
+  {% endif %}
+</div>
 {% endblock content %}
-
 
 {% block js %}
 {% endblock js %}

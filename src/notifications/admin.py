@@ -1,8 +1,7 @@
+# main/admin.py
 from django.contrib import admin
-from .models import Notification
+from .models import Product, Meal, PortionServed
 
-@admin.register(Notification)
-class NotificationAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'is_read', 'created_at')
-    search_fields = ('user__username',)
-    list_filter = ('is_read',)
+admin.site.register(Product)
+admin.site.register(Meal)
+admin.site.register(PortionServed)

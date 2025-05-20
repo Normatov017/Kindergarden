@@ -1,0 +1,86 @@
+
+{% load static %}
+
+{% block content %}
+<style>/* Umumiy stil */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f3f7fa;
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  max-width: 600px;
+  margin: 40px auto;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+h2 {
+  margin-bottom: 25px;
+  color: #2c3e50;
+  font-size: 26px;
+  text-align: center;
+}
+
+/* Form elementlari */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #34495e;
+}
+
+input[type="text"] {
+  padding: 12px;
+  border: 1px solid #ccd6dd;
+  border-radius: 10px;
+  font-size: 16px;
+  margin-bottom: 20px;
+  background-color: #fefefe;
+  transition: border-color 0.3s;
+}
+
+input[type="text"]:focus {
+  border-color: #5dade2;
+  outline: none;
+}
+
+/* Tugma */
+button {
+  padding: 12px 20px;
+  background-color: #3498db;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #2980b9;
+}
+</style>
+<main>
+  <h2>Edit Meal</h2>
+  <form method="POST">
+    {% csrf_token %}
+    <label for="mealName">Meal Name</label>
+    <input type="text" id="mealName" name="mealName" value="{{ meal.name }}" required>
+
+    <label for="mealName">Ingredients</label>
+    <input type="text" id="in" name="edit_meal" value="{{ meal.ingredients }}" required>
+
+    <button type="submit">Save Changes</button>
+  </form>
+</main>
+{% endblock %}
