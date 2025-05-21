@@ -1,82 +1,97 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block links %}
-  <link rel="stylesheet" href="{% static 'servemeal.css' %}">
+<link rel="stylesheet" href="{% static 'servemeal.css' %}">
 {% endblock links %}
 
 {% block content %}
+<main>
+  <form id="serveMealForm">
+    <label for="mealSelect">Select Meal to Serve</label>
+    <select id="mealSelect" required>
+      <option value="" disabled selected>Choose a meal</option>
+      {% for recipe in recipes %}
+      <option value="{{ recipe.id }}">{{ recipe.name }}</option>
+      {% endfor %}
+    </select>
 
-  <main>
-    <form id="serveMealForm">
-      <label for="mealSelect">Select Meal to Serve</label>
-      <select id="mealSelect" required>
-        <option value="" disabled selected>Choose a meal</option>
-        <option value="beefStew">Beef Stew</option>
-        <option value="ricePorridge">Rice Porridge</option>
-        <option value="vegetableSoup">Vegetable Soup</option>
-      </select>
+    <label for="portionCount" style="display:none;">Number of Portions</label>
+    <input type="number" id="portionCount" min="1" value="1" style="display:none;" required>
 
-      <button type="submit">Serve Meal</button>
-    </form>
+    <div id="ingredientList"></div>
 
-    <div id="alert" class="alert"></div>
-  </main>
+    <button type="submit" style="display:none;">Serve Meal</button>
+  </form>
 
-  <script>
-    // Example inventory with ingredient quantities in grams
-    const inventory = {
-      beef: 500,
-      potato: 800,
-      salt: 100,
-      rice: 300,
-      water: 1000,
-      vegetable: 400,
-    };
+  <div id="alert" class="alert"></div>
+</main>
 
-    // Meals and their required ingredients (grams)
-    const meals = {
-      beefStew: { beef: 200, potato: 300, salt: 5 },
-      ricePorridge: { rice: 150, water: 300, salt: 3 },
-      vegetableSoup: { vegetable: 200, salt: 4, water: 250 }
-    };
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const mealSelect = document.getElementById('mealSelect');
+  const ingredientList = document.getElementById('ingredientList');
+  const portionInput = document.getElementById('portionCount');
+  const serveButton = document.querySelector('button[type="submit"]');
+  const alertBox = document.getElementById('alert');
 
-    const form = document.getElementById('serveMealForm');
-    const alertBox = document.getElementById('alert');
+  let currentIngredients = [];
 
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      alertBox.style.display = 'none';
-      const selectedMeal = document.getElementById('mealSelect').value;
-      if (!selectedMeal) return;
+  mealSelect.addEventListener('change', async () => {
+    const recipeId = mealSelect.value;
+    if (!recipeId) return;
 
-      const requiredIngredients = meals[selectedMeal];
-      let insufficient = [];
+    const response = await fetch(`/servings/api/recipe/${recipeId}/`);
+    const data = await response.json();
+    currentIngredients = data.ingredients;
 
-      // Check ingredient sufficiency
-      for (const ingredient in requiredIngredients) {
-        if (!inventory[ingredient] || inventory[ingredient] < requiredIngredients[ingredient]) {
-          insufficient.push(ingredient);
-        }
-      }
+    // Show inputs
+    portionInput.style.display = 'block';
+    document.querySelector('label[for="portionCount"]').style.display = 'block';
+    serveButton.style.display = 'block';
 
-      if (insufficient.length > 0) {
-        alertBox.textContent = `Not enough ingredient(s): ${insufficient.join(', ')}. Cannot serve meal.`;
-        alertBox.style.display = 'block';
-        alertBox.className = 'alert';
-      } else {
-        // Deduct ingredients from inventory
-        for (const ingredient in requiredIngredients) {
-          inventory[ingredient] -= requiredIngredients[ingredient];
-        }
-        alertBox.textContent = 'Meal served successfully!';
-        alertBox.style.display = 'block';
-        alertBox.className = 'alert success';
-        // Here you would add logging (date/time, user) in real app
-      }
+    // Render ingredients
+    renderIngredients(1);
+  });
+
+  portionInput.addEventListener('input', () => {
+    const count = parseInt(portionInput.value) || 1;
+    renderIngredients(count);
+  });
+
+  function renderIngredients(portions) {
+    ingredientList.innerHTML = '<h4>Ingredients Required:</h4>';
+    currentIngredients.forEach(ing => {
+      ingredientList.innerHTML += `
+        <p>${ing.product_name}: ${ing.amount_per_portion * portions}g</p>
+      `;
     });
-  </script>
+  }
+
+  document.getElementById('serveMealForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const recipeId = mealSelect.value;
+    const portions = portionInput.value;
+
+    const response = await fetch('/servings/api/serve/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCSRFToken() },
+      body: JSON.stringify({ recipe_id: recipeId, portions })
+    });
+
+    const result = await response.json();
+    alertBox.style.display = 'block';
+    if (result.success) {
+      alertBox.textContent = 'Meal served successfully!';
+      alertBox.className = 'alert success';
+    } else {
+      alertBox.textContent = 'Error: ' + result.errors.join(', ');
+      alertBox.className = 'alert';
+    }
+  });
+
+  function getCSRFToken() {
+    return document.cookie.split('; ').find(row => row.startsWith('csrftoken')).split('=')[1];
+  }
+});
+</script>
 {% endblock content %}
-
-
-{% block js %}
-{% endblock js %}
