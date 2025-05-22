@@ -2,96 +2,37 @@
 {% load static %}
 {% block links %}
 <link rel="stylesheet" href="{% static 'servemeal.css' %}">
-{% endblock links %}
+{% endblock %}
 
 {% block content %}
 <main>
-  <form id="serveMealForm">
+  <h2>Serve a Meal</h2>
+
+  {% if messages %}
+    <div class="messages">
+      {% for message in messages %}
+        <div class="alert {% if message.tags %}{{ message.tags }}{% endif %}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <form method="POST">
+    {% csrf_token %}
+
     <label for="mealSelect">Select Meal to Serve</label>
-    <select id="mealSelect" required>
+    <select name="meal_id" id="mealSelect" required>
       <option value="" disabled selected>Choose a meal</option>
-      {% for recipe in recipes %}
-      <option value="{{ recipe.id }}">{{ recipe.name }}</option>
+      {% for meal in meals %}
+        <option value="{{ meal.id }}">{{ meal.name }} ({{ meal.many }} portions left)</option>
       {% endfor %}
     </select>
 
-    <label for="portionCount" style="display:none;">Number of Portions</label>
-    <input type="number" id="portionCount" min="1" value="1" style="display:none;" required>
+    <label for="portionCount">Number of Portions</label>
+    <input type="number" id="portionCount" name="portion_count" min="1" value="1" required>
 
-    <div id="ingredientList"></div>
-
-    <button type="submit" style="display:none;">Serve Meal</button>
+    <button type="submit">Bolalarga tarqatish</button>
   </form>
-
-  <div id="alert" class="alert"></div>
 </main>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const mealSelect = document.getElementById('mealSelect');
-  const ingredientList = document.getElementById('ingredientList');
-  const portionInput = document.getElementById('portionCount');
-  const serveButton = document.querySelector('button[type="submit"]');
-  const alertBox = document.getElementById('alert');
-
-  let currentIngredients = [];
-
-  mealSelect.addEventListener('change', async () => {
-    const recipeId = mealSelect.value;
-    if (!recipeId) return;
-
-    const response = await fetch(`/servings/api/recipe/${recipeId}/`);
-    const data = await response.json();
-    currentIngredients = data.ingredients;
-
-    // Show inputs
-    portionInput.style.display = 'block';
-    document.querySelector('label[for="portionCount"]').style.display = 'block';
-    serveButton.style.display = 'block';
-
-    // Render ingredients
-    renderIngredients(1);
-  });
-
-  portionInput.addEventListener('input', () => {
-    const count = parseInt(portionInput.value) || 1;
-    renderIngredients(count);
-  });
-
-  function renderIngredients(portions) {
-    ingredientList.innerHTML = '<h4>Ingredients Required:</h4>';
-    currentIngredients.forEach(ing => {
-      ingredientList.innerHTML += `
-        <p>${ing.product_name}: ${ing.amount_per_portion * portions}g</p>
-      `;
-    });
-  }
-
-  document.getElementById('serveMealForm').addEventListener('submit', async e => {
-    e.preventDefault();
-    const recipeId = mealSelect.value;
-    const portions = portionInput.value;
-
-    const response = await fetch('/servings/api/serve/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCSRFToken() },
-      body: JSON.stringify({ recipe_id: recipeId, portions })
-    });
-
-    const result = await response.json();
-    alertBox.style.display = 'block';
-    if (result.success) {
-      alertBox.textContent = 'Meal served successfully!';
-      alertBox.className = 'alert success';
-    } else {
-      alertBox.textContent = 'Error: ' + result.errors.join(', ');
-      alertBox.className = 'alert';
-    }
-  });
-
-  function getCSRFToken() {
-    return document.cookie.split('; ').find(row => row.startsWith('csrftoken')).split('=')[1];
-  }
-});
-</script>
-{% endblock content %}
+{% endblock %}

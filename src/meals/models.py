@@ -5,6 +5,7 @@ class Meal(models.Model):
     name = models.CharField(max_length=255)
     ingredients = models.TextField(null=False, blank=False)  # Yangi qo‘shilgan
     category = models.CharField(max_length=100, default='General')
+    many = models.IntegerField()
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='meals')
     created_at = models.DateTimeField(auto_now_add=True)
 

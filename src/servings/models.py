@@ -1,9 +1,10 @@
+from meals.models import Meal  # Recipe o‘rniga
 from django.db import models
 from users.models import User
-from recipes.models import Recipe
+
 
 class Servings(models.Model):
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    recipe = models.ForeignKey(Meal, on_delete=models.CASCADE)  # Recipe emas
     served_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     served_at = models.DateTimeField()
 

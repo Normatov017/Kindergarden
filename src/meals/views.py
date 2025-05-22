@@ -8,11 +8,13 @@ def meals_view(request):
     if request.method == 'POST':
         name = request.POST.get('mealName')
         ingredients = request.POST.get('ingredients')
+        many = request.POST.get('many')
         category = "Default"
         Meal.objects.create(
             name=name,
             ingredients=ingredients,
             category=category,
+            many = many,
             created_by=request.user
         )
         return redirect('meals')
@@ -32,7 +34,7 @@ def edit_meal(request, meal_id):
     if request.method == 'POST':
         meal.name = request.POST.get('mealName')
         meal.ingredients = request.POST.get('edit_meal')
-
+        meal.many = request.POST.get('many')
         meal.category = "Default"  # Optional category field
         meal.save()
         return redirect('meals')

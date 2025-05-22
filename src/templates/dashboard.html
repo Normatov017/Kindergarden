@@ -16,27 +16,27 @@
     </div>
     <div class="card">
       <h3>Portions Served</h3>
-      <p>{{ portions_today }}</p>
+      <p>{{ portions_today }} <span class="value" id="possible-portions">{{ possible_portions }}</span></p>
     </div>
   </div>
 
   <div class="dashboard-container role-section">
     <h2>Admin Panel</h2>
-    <a href="reports.html" class="button">View Reports</a>
-    <a href="users.html" class="button">Manage Users</a>
-    <a href="alerts.html" class="button">View Alerts</a>
+    <a href="{% url 'reports' %}" class="button">View Reports</a>
+    <a href="{% url 'users' %}" class="button">Manage Users</a>
+    <a href="{% url 'alerts:alerts' %}" class="button">View Alerts</a>
   </div>
 
   <div class="dashboard-container role-section">
     <h2>Manager Tools</h2>
-    <a href="inventory.html" class="button">Inventory</a>
-    <a href="meals.html" class="button">Meals</a>
-    <a href="portion-estimate.html" class="button">Estimate Portions</a>
+    <a href="{% url 'inventory' %}" class="button">Inventory</a>
+    <a href="{% url 'meals' %}" class="button">Meals</a>
+    <a href="{% url 'portionestimates' %}" class="button">Estimate Portions</a>
   </div>
 
   <div class="dashboard-container role-section">
     <h2>Cook Section</h2>
-    <a href="serve-meal.html" class="button">Serve Meal</a>
+    <a href="{% url 'servemeal' %}" class="button">Serve Meal</a>
   </div>
 {% endblock content %}
 
