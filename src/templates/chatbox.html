@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'chatbox.css' %}">
+    <link rel="stylesheet" href="{% static 'index.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="chat-container">
+        <div class="chat-header">
+            Support bilan suhbat
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            {% for message in initial_messages %}
+                <div class="message {% if message.sender.is_staff %}admin-message{% else %}user-message{% endif %}">
+                    <div class="message-info">
+                        {{ message.sender.username }} • {{ message.timestamp|time:"H:i" }}
+                    </div>
+                    <div>{{ message.content }}</div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="chat-input">
+            <input type="text" id="message-input" placeholder="Xabaringizni yozing...">
+            <button id="send-button">Yuborish</button>
+        </div>
+    </div>
+
+    <script>
+        const chatRoomId = "{{ chat_room.id }}";
+        const currentUser = "{{ request.user.username }}";
+        let lastMessageId = {{ last_message_id }};
+
+        // DOM elementlari
+        const chatMessages = document.getElementById('chat-messages');
+        const messageInput = document.getElementById('message-input');
+        const sendButton = document.getElementById('send-button');
+
+        // Xabarni yuborish
+        async function sendMessage() {
+            const messageText = messageInput.value.trim();
+
+            if (messageText) {
+                try {
+                    const response = await fetch('/api/send-message/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'X-CSRFToken': '{{ csrf_token }}'
+                        },
+                        body: `content=${encodeURIComponent(messageText)}`
+                    });
+
+                    const data = await response.json();
+
+                    if (data.status === 'success') {
+                        messageInput.value = '';
+                        // Avtomatik ravishda yangi xabarlarni tekshirish
+                        setTimeout(checkNewMessages, 1000);
+                    }
+                } catch (error) {
+                    console.error('Xatolik:', error);
+                }
+            }
+        }
+
+        // Yangi xabarlarni tekshirish
+        async function checkNewMessages() {
+            try {
+                const response = await fetch(`/api/get-messages/?last_id=${lastMessageId}`);
+                const data = await response.json();
+
+                if (data.messages.length > 0) {
+                    data.messages.forEach(msg => {
+                        const messageDiv = document.createElement('div');
+                        messageDiv.classList.add('message');
+                        messageDiv.classList.add(msg.is_admin ? 'admin-message' : 'user-message');
+
+                        const infoDiv = document.createElement('div');
+                        infoDiv.classList.add('message-info');
+                        infoDiv.textContent = `${msg.sender} • ${msg.timestamp}`;
+
+                        const textDiv = document.createElement('div');
+                        textDiv.textContent = msg.content;
+
+                        messageDiv.appendChild(infoDiv);
+                        messageDiv.appendChild(textDiv);
+                        chatMessages.appendChild(messageDiv);
+
+                        lastMessageId = msg.id;
+                    });
+
+                    // Avtomatik scroll
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+            } catch (error) {
+                console.error('Xatolik:', error);
+            }
+
+            // 3 soniyadan so'ng yana tekshirish
+            setTimeout(checkNewMessages, 3000);
+        }
+
+        // Event listenerlar
+        sendButton.addEventListener('click', sendMessage);
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Dastlabki sozlamalar
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        // Yangi xabarlarni avtomatik tekshirishni boshlash
+        setTimeout(checkNewMessages, 3000);
+    </script>
+{% endblock %}

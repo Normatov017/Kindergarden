@@ -3,7 +3,9 @@ from django.utils.timezone import now
 from django.contrib import messages
 from .models import Servings
 from meals.models import Meal
+from permissions.permisssion import role_required
 
+@role_required('Admin', 'Manager')
 def servemeal_view(request):
     meals = Meal.objects.all()
 

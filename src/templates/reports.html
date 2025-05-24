@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block links %}
-  <link rel="stylesheet" href="{% static 'reports.css' %}">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <link rel="stylesheet" href="{% static 'plugins/fontawesome-free/css/all.min.css' %}">
-  <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css' %}">
+<link rel="stylesheet" href="{% static 'reports.css' %}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<link rel="stylesheet" href="{% static 'plugins/fontawesome-free/css/all.min.css' %}">
+<link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css' %}">
 {% endblock links %}
 
 {% block content %}
@@ -24,7 +24,7 @@
     </div>
     <div class="card-body">
       <div class="chart">
-        <canvas id="areaChart" style="min-height: 250px; height: 950px; max-height: 250px; max-width: 100%;"></canvas>
+        <canvas id="areaChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
       </div>
     </div>
   </div>
@@ -37,7 +37,8 @@
       <li>Difference Rate: <span class="value" id="difference-rate">{{ difference_rate }}%</span></li>
     </ul>
 
-    <div id="flag-misuse" class="flag-misuse" style="{% if show_flag %}display:block;{% else %}display:none;{% endif %}">
+    <div id="flag-misuse" class="flag-misuse"
+         style="{% if show_flag %}display:block;{% else %}display:none;{% endif %}">
       ⚠️ Potential misuse detected! Difference rate exceeds 10%
     </div>
   </section>
@@ -54,39 +55,45 @@
     var areaChartCanvas = $('#areaChart').get(0).getContext('2d');
 
     var areaChartData = {
-      labels  : ['Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'Iyun', 'Iyul'],
+      labels: {{ chart_labels|safe }},
       datasets: [{
-        label               : 'Portion Activity',
-        backgroundColor     : 'rgba(60,141,188,0.9)',
-        borderColor         : 'rgba(60,141,188,0.8)',
-        pointRadius         : false,
-        pointColor          : '#3b8bba',
-        pointStrokeColor    : 'rgba(60,141,188,1)',
-        pointHighlightFill  : '#fff',
+        label: 'Portion Activity',
+        backgroundColor: 'rgba(60,141,188,0.9)',
+        borderColor: 'rgba(60,141,188,0.8)',
+        pointRadius: true,
+        pointColor: '#3b8bba',
+        pointStrokeColor: 'rgba(60,141,188,1)',
+        pointHighlightFill: '#fff',
         pointHighlightStroke: 'rgba(60,141,188,1)',
-        data                : {{ usage_data|safe }}  // Dynamic usage data from views.py
+        data: {{ chart_data|safe }}
       }]
     };
 
     var areaChartOptions = {
-      maintainAspectRatio : false,
-      responsive : true,
-      legend: {
-        display: true
+      maintainAspectRatio: false,
+      responsive: true,
+      plugins: {
+        legend: {
+          display: true
+        }
       },
       scales: {
-        xAxes: [{
-          gridLines : {
-            display : false
+        x: {
+          grid: {
+            display: true
           }
-        }],
-        yAxes: [{
-          gridLines : {
-            display : false
+        },
+        y: {
+          grid: {
+            display: true
           }
-        }]
+        }
       }
     };
+
+    // Debug log
+    console.log("Chart Labels:", {{ chart_labels|safe }});
+    console.log("Chart Data:", {{ chart_data|safe }});
 
     new Chart(areaChartCanvas, {
       type: 'line',
@@ -95,4 +102,7 @@
     });
   });
 </script>
+
+
+
 {% endblock js %}

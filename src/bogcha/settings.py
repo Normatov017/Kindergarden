@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'servinglogs',
     'alerts',
     'monthlyreports',
+    'main',
 ]
 
 MIDDLEWARE = [
