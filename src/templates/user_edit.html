@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block links %}
+<link rel="stylesheet" href="{% static 'servemeal.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <h2>{{ user.full_name }} ma'lumotlarini tahrirlash</h2>
+
+    <form method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}  <!-- Formani ko'rsatish -->
+
+      <button type="submit" class="btn btn-primary">Saqlash</button>
+      <div style="width:750px; border-radius: 5px; height: 45px;  background:#27AE60; margin-top: 10px; text-align: center; display: flex; font-weight: bold; align-items: center; justify-content: center;" class="bbuttun">
+      <a style="color: white; text-decoration: none;" href="{% url 'users' %}" class="btn btn-secondary btn-lg w-100 text-center">Bekor qilish</a>
+      </div>
+    </form>
+  </div>
+{% endblock %}

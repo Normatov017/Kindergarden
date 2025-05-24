@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>{{ user.full_name }} foydalanuvchisini o‘chirmoqchimisiz?</h2>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="delete">Ha, o‘chirilsin</button>
+    <a href="{% url 'users' %}">Bekor qilish</a>
+  </form>
+{% endblock %}

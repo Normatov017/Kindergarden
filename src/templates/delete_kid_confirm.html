@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="card p-4 text-center">
+        <h4 class="mb-3">Rostdan ham ushbu bolani o‘chirmoqchimisiz?</h4>
+        <p><strong>{{ kid.full_name }}</strong> ({{ kid.age }} yosh, {{ kid.group.name }})</p>
+        <form method="POST">
+            {% csrf_token %}
+            <a href="{% url 'kids-list' %}" class="btn btn-secondary">Yo‘q, ortga</a>
+            <button type="submit" class="btn btn-danger">Ha, o‘chirish</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

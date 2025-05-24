@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'alerts',
     'monthlyreports',
     'main',
+    'kids'
 ]
 
 MIDDLEWARE = [

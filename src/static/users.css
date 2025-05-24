@@ -13,7 +13,43 @@
       background-size: cover;         
       background-position: center; 
     }
+        .actions {
+    display: flex;
+    gap: 8px;
+  }
 
+  .actions button {
+    background-color: #3498db;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+    color: white;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+  }
+
+  .actions button.delete {
+    background-color: #e74c3c;
+  }
+
+  .actions button:hover {
+    opacity: 0.85;
+  }
+
+  @media (max-width: 768px) {
+    .actions {
+      flex-direction: column;
+      gap: 6px;
+    }
+  }
+  .actions button {
+  margin-right: 5px;
+  }
+  .actions form {
+  display: inline;
+  }
     h1 {
       text-align: center;
       margin-bottom: 2rem;

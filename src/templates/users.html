@@ -17,6 +17,7 @@
             <th>Email</th>
             <th>Rol</th>
             <th>Faollik Statusi</th>
+            <th>Holat</th>
           </tr>
         </thead>
         <tbody>
@@ -26,10 +27,19 @@
               <td>{{ u.email }}</td>
               <td>{{ u.role.name }}</td>
               <td>{% if u.is_active %}Faol{% else %}Faol emas{% endif %}</td>
+              <td class="actions">
+                <form action="{% url 'user_edit' u.id %}" method="get" style="display:inline;">
+                  <button type="submit">Tahrirlash</button>
+                </form>
+                <form action="{% url 'user_delete' u.id %}" method="post" style="display:inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="delete">O‘chirish</button>
+                </form>
+              </td>
             </tr>
           {% empty %}
             <tr>
-              <td colspan="4">Foydalanuvchilar topilmadi</td>
+              <td colspan="5">Foydalanuvchilar topilmadi</td>
             </tr>
           {% endfor %}
         </tbody>
@@ -49,7 +59,7 @@
           </tr>
         </thead>
         <tbody>
-          {% for portion in meals_served %}
+          {% for portion in Servings   %}
             <tr>
               <td>{{ portion.user.full_name }}</td>
               <td>{{ portion.meal.name }}</td>

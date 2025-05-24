@@ -6,7 +6,9 @@ from django.contrib.auth.views import LoginView as DjangoLoginView
 from django.http import HttpResponse
 from permissions.permisssion import role_required
 from django.contrib import messages
-
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import User  # model nomi sizda qanday bo‘lsa, shunga moslang
+from .forms import UserForm
 
 
 def login_view(request):
@@ -39,3 +41,38 @@ def user_list(request):
             ctx = {"data_user": data_user}
             return render(request, 'users.html', ctx)
     return HttpResponse("Sizga ruxsat berilmagan", status=403)
+
+
+
+
+
+
+
+
+# def user_list(request):
+#     data_user = User.objects.select_related('role').all()
+#     meals_served = ...
+#     return render(request, 'users.html', {
+#         'data_user': data_user,
+#         'meals_served': meals_served
+#     })
+
+def user_edit(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    if request.method == 'POST':
+        form = UserForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('users')
+    else:
+        form = UserForm(instance=user)
+    return render(request, 'user_edit.html', {'form': form, 'user': user})
+
+def user_delete(request, pk):
+    user = get_object_or_404(User, id=pk)
+
+    if request.method == 'POST':
+        user.delete()  # Foydalanuvchini o‘chirish
+        return redirect('users')  # Foydalanuvchilar ro‘yxatiga qaytish
+
+    return render(request, 'user_confirm_delete.html', {'user': user})
