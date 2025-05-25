@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block links %}
+  <link rel="stylesheet" href="{% static 'index.css' %}">
+  <link rel="stylesheet" href="{% static 'kids_group.css' %}">
+{% endblock links %}
+
+{% block content %}
+<div class="kids-container">
+    <div class="kids-header">
+        <div class="header-content">
+            <h2><i class="fas fa-users"></i> "{{ group.name }}" guruhi</h2>
+            <p class="kids-count">{{ kids|length }} ta bola ro'yxatda</p>
+        </div>
+        <div class="header-actions">
+            <a href="{% url 'group-list' %}" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Guruhlar ro'yxati
+            </a>
+        </div>
+    </div>
+
+    <div class="kids-table-container">
+        {% if kids %}
+        <table class="kids-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Ism Familiya</th>
+                    <th>Yosh</th>
+                    <th>Holati</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for kid in kids %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>
+                        <div class="kid-info">
+                            <div class="kid-avatar">
+                                <i class="fas fa-child"></i>
+                            </div>
+                            <div class="kid-name">{{ kid.full_name }}</div>
+                        </div>
+                    </td>
+                    <td>{{ kid.age }} yosh</td>
+                    <td>
+                        {% if kid.status == 'active' %}
+                            <span class="status-badge active">
+                                <i class="fas fa-check-circle"></i> Faol
+                            </span>
+                        {% else %}
+                            <span class="status-badge inactive">
+                                <i class="fas fa-times-circle"></i> Nofaol
+                            </span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="empty-state">
+            <i class="fas fa-child"></i>
+            <h3>Bu guruhda bolalar topilmadi</h3>
+            <p>"{{ group.name }}" guruhida hozircha hech qanday bola ro'yxatdan o'tmagan</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

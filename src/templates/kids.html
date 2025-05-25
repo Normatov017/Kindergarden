@@ -27,6 +27,16 @@
         <div class="card shadow p-4">
             <h2 class="text-center mb-4">Bogʻcha Bolalari Roʻyxati</h2>
             <p class="text-center text-muted">Bu yerda bogʻchadagi barcha bolalar haqida umumiy roʻyxat keltirilgan.</p>
+
+            <form method="get" class="row g-3 mb-3">
+                <div class="col-md-10">
+                    <input type="text" name="search" class="form-control" placeholder="Ism yoki familiya bo‘yicha qidirish..." value="{{ request.GET.search }}">
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-outline-primary w-100">Qidirish</button>
+                </div>
+            </form>
+
             <div class="d-flex justify-content-end mt-4">
             <a href="{% url 'add-kid' %}" class="btn btn-success">+ Yangi bola qo‘shish</a>
             </div>

@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'alerts',
     'monthlyreports',
     'main',
-    'kids'
+    'group'
 ]
 
 MIDDLEWARE = [
@@ -152,3 +152,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '/users/login/'     # or the name of your login URL
 LOGIN_REDIRECT_URL = '/main/'  # after successful login
 LOGOUT_REDIRECT_URL = '/'  # optional
+
+
+
+
+
+

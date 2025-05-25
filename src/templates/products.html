@@ -7,6 +7,13 @@
 
 {% block content %}
 <div class="container">
+
+    <form method="GET" class="filter-form" style="margin-bottom: 20px;">
+    <input type="text" name="search" placeholder="Mahsulot nomi bo‘yicha qidirish..." value="{{ request.GET.search }}">
+    <button type="submit">Filterlash</button>
+  </form>
+
+
   <!-- Add New Product Form -->
   <form method="POST" aria-label="Add new product form">
     {% csrf_token %}

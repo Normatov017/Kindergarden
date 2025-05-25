@@ -16,8 +16,7 @@ urlpatterns = [
     path('reports/', include('reports.urls')),
     path('servings/', include('servings.urls')),
     path('notifications/', include('notifications.urls')),
-    path('kids/', include('kids.urls'))
-
+    path('group/', include('group.urls')),
 
 ]
 def custom_404(request, exception):

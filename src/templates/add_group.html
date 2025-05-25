@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block links %}
+  <link rel="stylesheet" href="{% static 'index.css' %}">
+  <link rel="stylesheet" href="{% static 'add_group.css' %}">
+{% endblock links %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-card">
+        <div class="form-header">
+            <h2><i class="fas fa-plus-circle"></i> Yangi guruh qo'shish</h2>
+            <p>Quyidagi maydonlarni to'ldiring</p>
+        </div>
+
+        <form method="post" class="group-form">
+            {% csrf_token %}
+
+            <div class="form-fields">
+                {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}
+                    <small class="form-help">{{ field.help_text }}</small>
+                    {% endif %}
+                    {% for error in field.errors %}
+                    <div class="form-error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-save"></i> Saqlash
+                </button>
+                <a href="{% url 'group-list' %}" class="cancel-btn">
+                    <i class="fas fa-arrow-left"></i> Ortga
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block links %}
+  <link rel="stylesheet" href="{% static 'group.css' %}">
+  <link rel="stylesheet" href="{% static 'index.css' %}">
+{% endblock links %}
+
+{% block content %}
+<div class="groups-container">
+    <div class="groups-header">
+        <div class="header-text">
+            <h1>Bogʻcha Guruhlari</h1>
+            <p>Har bir guruhda nechta bola borligini ko‘rishingiz mumkin</p>
+        </div>
+        <a href="{% url 'add-group' %}" class="add-group-btn">
+            <i class="fas fa-plus-circle"></i> Yangi guruh
+        </a>
+    </div>
+
+    {% if groups %}
+    <div class="groups-grid">
+        {% for group in groups %}
+        <div class="group-card">
+            <div class="card-header">
+                <h3>{{ group.name }}</h3>
+                <span class="members-count">{{ group.kid_count }} ta bola</span>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'kids-in-group' group.id %}" class="view-btn">
+                    <i class="fas fa-users"></i> Bolalarni ko'rish
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <i class="fas fa-folder-open"></i>
+        <h3>Guruhlar topilmadi</h3>
+        <p>Hozircha hech qanday guruh mavjud emas</p>
+        <a href="{% url 'add-group' %}" class="add-group-btn">
+            <i class="fas fa-plus-circle"></i> Birinchi guruhni qo'shing
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock content %}
