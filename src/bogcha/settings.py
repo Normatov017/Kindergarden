@@ -1,3 +1,5 @@
+
+
 """
 Django settings for bogcha project.
 
@@ -95,14 +97,21 @@ WSGI_APPLICATION = 'bogcha.wsgi.application'
 
 DATABASES = {
     "default": {
-        'ENGINE': 'django.db.backends.postgresql',
-        "NAME": "bogcha",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "cloud",
         "USER": "postgres",
-        "PASSWORD": "1234",
-        "HOST": "127.0.0.1",
+        "PASSWORD": "root",
+        "HOST": "db",  # 127.0.0.1 emas!
         "PORT": "5432",
     }
 }
+
+
+# CELERY Configuration
+
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 
 # Password validation
@@ -149,12 +158,9 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-LOGIN_URL = '/users/login/'     # or the name of your login URL
-LOGIN_REDIRECT_URL = '/main/'  # after successful login
-LOGOUT_REDIRECT_URL = '/'  # optional
 
-
-
-
-
-
+# Celery konfiguratsiyasi
+CELERY_BROKER_URL = 'redis://localhost:6379/0'  # yoki RabbitMQ URL
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'  # optional

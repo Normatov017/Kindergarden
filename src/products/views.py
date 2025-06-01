@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.views.decorators.http import require_POST
 from permissions.permisssion import role_required
 
-@role_required('Admin', 'Manager')
+
 def products_view(request):
     products = Product.objects.all().order_by('-created_at')
 
@@ -18,13 +18,13 @@ def products_view(request):
 
     return render(request, 'products.html', {'products': products})
 
-@role_required('Admin', 'Manager')
+
 def delete_product(request, pk):
     product = get_object_or_404(Product, pk=pk)
     product.delete()
     return redirect('products')
 
-@role_required('Admin', 'Manager')
+
 def edit_product(request, pk):
     product = get_object_or_404(Product, pk=pk)
     print(request.POST.get)
@@ -40,7 +40,6 @@ def edit_product(request, pk):
 
 
 @require_POST
-@role_required('Admin', 'Manager')
 def delete_product(request, pk):
     product = get_object_or_404(Product, pk=pk)
     product.delete()
@@ -50,7 +49,7 @@ def delete_product(request, pk):
 
 
 
-@role_required('Admin', 'Manager')
+
 def products_view(request):
     products = Product.objects.all().order_by('-created_at')
 

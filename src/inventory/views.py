@@ -5,7 +5,6 @@ from django.contrib.auth.decorators import login_required
 from permissions.permisssion import role_required
 
 @login_required
-@role_required('Admin', 'Manager')
 def inventory_view(request):
     if request.method == 'POST':
         product_id = request.POST.get('product')

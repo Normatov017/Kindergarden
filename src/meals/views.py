@@ -5,7 +5,6 @@ from django.contrib.auth.decorators import login_required
 from permissions.permisssion import role_required
 
 @login_required
-@role_required('Admin', 'Manager')
 def meals_view(request):
     if request.method == 'POST':
         name = request.POST.get('mealName')

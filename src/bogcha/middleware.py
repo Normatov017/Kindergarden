@@ -2,7 +2,10 @@ from django.shortcuts import redirect
 from django.conf import settings
 
 EXEMPT_URLS = [
-    '/users/login/'     # if you have a public registration page
+    settings.LOGIN_URL,  # asosan '/accounts/login/'
+    '/users/login/',     # agar kerak bo‘lsa
+    '/admin/login/',     # admin login sahifasi
+    '/static/',          # statik fayllar uchun
 ]
 
 class LoginRequiredMiddleware:
@@ -10,6 +13,9 @@ class LoginRequiredMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        if not request.user.is_authenticated and request.path not in EXEMPT_URLS:
-            return redirect(settings.LOGIN_URL)
+        # Agar foydalanuvchi tizimga kirmagan va url istisno ro'yxatida bo'lmasa, login sahifaga yo'naltirilsin
+        if not request.user.is_authenticated:
+            path = request.path
+            if not any(path.startswith(url) for url in EXEMPT_URLS):
+                return redirect(settings.LOGIN_URL)
         return self.get_response(request)

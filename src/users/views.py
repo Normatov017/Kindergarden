@@ -1,14 +1,12 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
-from .forms import CustomLoginForm
-from .models import User
-from django.contrib.auth.views import LoginView as DjangoLoginView
-from django.http import HttpResponse
-from permissions.permisssion import role_required
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
+from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import User  # model nomi sizda qanday bo‘lsa, shunga moslang
+from permissions.permisssion import role_required
+
+from .forms import CustomLoginForm
 from .forms import UserForm
+from .models import User  # model nomi sizda qanday bo‘lsa, shunga moslang
 
 
 def login_view(request):
@@ -33,14 +31,13 @@ def login_view(request):
                 messages.error(request, "Login yoki parol noto'g'ri.")
 
     return render(request, 'login.html', {'form': form})
-@role_required('Admin', 'Manager')
+
 def user_list(request):
-    if request.user.is_authenticated and request.user.role is not None:
-        if request.user.role.name in ["superuser", "manager"]:
-            data_user = User.objects.all()
-            ctx = {"data_user": data_user}
-            return render(request, 'users.html', ctx)
-    return HttpResponse("Sizga ruxsat berilmagan", status=403)
+    data_user = User.objects.all()
+    ctx = {"data_user": data_user}
+    return render(request, 'users.html', ctx)
+
+
 
 
 
